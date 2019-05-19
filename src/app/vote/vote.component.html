@@ -7,7 +7,43 @@
   <div class="offset-9">
   </div>
   <div class="col-3">
-    <span class="text-primary">{{voter.nom}} {{voter.prenoms}}</span>
-    <a class="btn btn-primary" [routerLink]="['/auth']" routerLinkActive="router-link-active">Se déconnecter</a>
+    <span class="text-primary">Bienvenue {{participant.nom}} {{participant.prenoms}}</span>
+    <a class="btn btn-primary" [routerLink]="['/auth']" routerLinkActive="router-link-active" (click)="logout()">Se déconnecter</a>
   </div>
+</div>
+<div class="row" *ngFor="let p of participants; let i=index">
+  <div class="offset-4"></div>
+  <div class="col-4">
+    <div class="row">
+      <div class="col-12 card ">
+        <div class="row">
+          <h2 class="col-12 text-center card-title card"> {{p.nom}} {{p.prenoms}}</h2>
+          <span class="text-success col-12" *ngIf="i===0">Employé du mois! Félicitation {{p.nom}} {{p.prenoms}}!</span>
+          <div class="col-12 card-body text-center">
+            <div class="row">
+              <div class="col-5">
+                <div class="card-subtitle col-12">Score:</div>
+                <p class="col-12">{{p.score}} {{p.score > 1 ? 'points' : 'point'}}
+                </p>
+                <p class="col-12 text-success"> {{findPositiveVotesTargetingParticipant(p).length}} LIKE</p>
+                <p class="col-12 text-danger">{{findNegativeVotesTargetingParticipant(p).length}} DISLIKE</p>
+              </div>
+              <img [src]="p.photoUrl" class="img-fluid col-7 card-img">
+              <div class=" offset-2 col-8 card-footer">
+                <button (click)="vote(p, 'LIKE')" [disabled]="p.matricule === participant.matricule"
+                  class="btn btn-success">LIKE</button>
+                <button (click)="vote(p, 'DISLIKE')" [disabled]="p.matricule === participant.matricule"
+                  class="btn btn-danger">DISLIKE</button>
+              </div>
+              <span *ngIf="p.matricule === participant.matricule" class="text-info">Note: Vous ne pouvez pas voter pour
+                vous-même</span>
+              <span *ngIf="voteMsgError" class="text-danger">{{voteMsgError}}</span>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="offset-4"></div>
 </div>

@@ -1,11 +1,14 @@
-export class Voter {
+import { Vote } from './Vote';
 
+export class Participant {
+
+  public matricule: string;
   public email: string;
   public nom: string;
   public prenoms: string;
   public photoUrl: string;
   public score: number;
-  public participate: boolean;
-  public targetEmail: string;
+  public votes: Vote[];
+
 
 }

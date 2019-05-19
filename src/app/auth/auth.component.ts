@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Voter } from '../models/Voter';
+import { Participant } from '../models/Participant';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -36,7 +36,7 @@ export class AuthComponent implements OnInit {
 
   authenticate() {
     this._authService.logIn(this._email, this._password).subscribe(
-      voter => { console.log("voter = " + voter); },
+      voter => { console.log("voter = " + voter.email); },
       (err: Error) => this.msgError = `Une erreur ${err.name} est arrivée pendant la connexion:\n${err.message}`,
       () => console.log('fin de la tentative de connection')
     )

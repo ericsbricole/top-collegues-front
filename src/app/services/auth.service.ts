@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.prod';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Voter } from '../models/Voter';
+import { Participant } from '../models/Participant';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -23,10 +23,10 @@ export class AuthService {
 
   public logIn(email: string, password: string) {
     const infosAuthent = { email, password };
-    return this._http.post<Voter>(`${this.URL_BACKEND}/auth`, infosAuthent, { withCredentials: true })
+    return this._http.post<Participant>(`${this.URL_BACKEND}/auth`, infosAuthent, { withCredentials: true })
       .pipe(
-        tap(voter => {
-          if (voter !== null) {
+        tap(participant => {
+          if (participant !== null) {
             this._isLoggedIn = true;
             this._router.navigate(['/vote']);
           }
@@ -34,10 +34,13 @@ export class AuthService {
       );
   }
 
-  public getCurrentVoter() {
-    return this._http.get<Voter>(`${this.URL_BACKEND}/me`, { withCredentials: true });
+  public getCurrentParticipant() {
+    return this._http.get<Participant>(`${this.URL_BACKEND}/me`, { withCredentials: true });
   }
 
-
+  public logout(participant: Participant) {
+    const infosAuthent = { "email": participant.email };
+    return this._http.post<void>(`${this.URL_BACKEND}/auth`, infosAuthent, { withCredentials: true })
+  }
 
 }
